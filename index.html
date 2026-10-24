@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Roamly: Discover your next favorite place</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#26231f"><title>Roamly: Discover your next favorite place</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#faf7f2;--sf:#fff;--ink:#26231f;--mu:#6f675e;--ln:#e6dfd4;--ac:#b4533a;--ah:#9a432d;--rb:#f6e6df;--sh:rgba(38,35,31,.16);--ease:cubic-bezier(.2,.7,.2,1);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -274,8 +274,111 @@ input[type=number]{-moz-appearance:textfield}input[type=number]::-webkit-inner-s
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv.pre{opacity:1;transform:none}}
 
+/* ===== Black demo bar (always visible) + device / mobile layer ===== */
+body::before{background:var(--ink)}
+.dm{display:block;line-height:1.35;padding:6px 14px;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px));text-wrap:balance}
+.dm .s{display:none}.dm .dv{opacity:.65;margin-left:10px;white-space:nowrap}.dm .dv::before{content:"·";margin-right:10px}
+[data-device=mobile] .dm,[data-device=tablet] .dm{font-size:12.5px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;-webkit-tap-highlight-color:transparent}
+button,.card,.dest,.chip,.fb,a{touch-action:manipulation}
+#t{bottom:calc(20px + env(safe-area-inset-bottom,0px));width:max-content;max-width:calc(100vw - 32px)}
+.md{max-height:92vh;max-height:92dvh}.md h2{padding-right:36px}
+.lb img{max-height:84vh;max-height:84dvh}
+.bp{top:calc(var(--hh,90px) + env(safe-area-inset-top,0px) + 16px)}
+.po.sheet{border-radius:22px 22px 0 0!important;max-height:90vh;max-height:90dvh}
+.po.dd.sheet{max-height:70vh;max-height:70dvh;padding:6px 6px calc(14px + env(safe-area-inset-bottom,0px))!important}
+.po.gp.sheet{padding:20px 22px calc(18px + env(safe-area-inset-bottom,0px))!important}
+.po.dd.sheet .o2{padding:14px 14px;font-size:16px}
+.links{scrollbar-width:none}.links::-webkit-scrollbar{display:none}.tabs{scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+
+/* tablet */
+@media(min-width:761px) and (max-width:1100px){.w,.bar{padding-left:24px;padding-right:24px}.g{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}.hero{gap:28px}}
+@media(max-width:960px){.bp{position:static}}
+
+/* phones and small screens */
+@media(max-width:760px){
+.w{padding:0 16px}
+.bar{padding:8px 14px;gap:6px 10px}
+.bar .logo{margin-right:auto;font-size:21px;padding:0}
+.links{margin:0 -14px;width:calc(100% + 28px);padding:0 14px;gap:4px}
+.links button{padding:9px 10px;font-size:14.5px}.links button::after{left:10px;right:10px}
+.me{padding:3px 12px 3px 3px;min-height:40px}
+.menu{max-width:calc(100vw - 28px);top:48px}
+.hero{padding:20px 0 8px;gap:24px}
+.hero p.l{font-size:16px;margin:12px 0 20px}
+.acts{gap:10px}.acts .btn{flex:1 1 140px;text-align:center}
+.hi{margin-bottom:18px}.hi .i2{left:10px;bottom:-14px;width:36%;border-width:4px}
+.sb{margin:22px 0 8px}
+section.s{padding:26px 0}
+html input,html select,html textarea,.sb input{font-size:16px}
+.th{display:flex;overflow-x:auto;border-right:0;border-bottom:1px solid var(--ln)}.th button{width:auto;min-width:160px;border-bottom:0;border-right:1px solid var(--ln)}
+.msg{min-height:320px}
+.ov{place-items:end center;padding:0}
+.md{border-radius:18px 18px 0 0;max-height:92vh;max-height:92dvh;padding:24px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.lb button[style*="top:16px"]{top:calc(16px + env(safe-area-inset-top,0px))!important}
+.po.dp{padding-left:12px;padding-right:12px}
+.dpf{flex-wrap:wrap}
+.pd{gap:24px}
+.stat b{font-size:24px}
+}
+@media(max-width:560px){
+.g{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:18px 12px}
+.cm{flex-direction:column;gap:2px;font-size:14px}.card .sub{font-size:13px}
+.dest span{font-size:17px;left:10px;bottom:8px}
+.ftg{gap:24px 16px}
+.sh{flex-wrap:wrap}
+}
+/* short landscape phones: one-row header so the page isn't all header */
+@media(max-height:500px) and (orientation:landscape){.bar{flex-wrap:nowrap}.links{order:0;width:auto;flex:1;margin:0;padding:0}.dm{padding-top:3px;padding-bottom:3px}}
+/* phones: short text in the black bar */
+@media(max-width:620px){.dm .l{display:none}.dm .s{display:inline}}
+[data-device=mobile] .dm .l{display:none}[data-device=mobile] .dm .s{display:inline}
+
+/* touch devices: no sticky hover states, larger tap targets */
+@media(hover:none){
+.card:hover,.dest:hover,.chip:hover,.rc:hover,.stat:hover{transform:none;box-shadow:none}
+.card:hover img,.dest:hover img{transform:none}
+.btn:hover:not([disabled]){transform:none;box-shadow:none}
+.fav:hover,.cal button:hover:not([disabled]),.nv2:hover:not([disabled]),.stp button:hover:not([disabled]){transform:none}
+.logo:hover svg{transform:none}.links button:hover::after{transform:scaleX(0)}
+.x:hover{transform:none}.me:hover{box-shadow:none}
+.o2:hover,.o2.f{padding-left:12px}
+.dpd:hover:not([disabled]):not(.s){box-shadow:none;transform:none}
+.gal img:hover{filter:none}
+}
+@media(pointer:coarse){
+.btn{min-height:44px}.btn.s{min-height:40px}
+.chip{padding:10px 16px}
+.fav{width:40px;height:40px;font-size:18px}
+.stp button{width:44px;height:44px}
+.tabs button{padding:12px 16px}
+.menu button{padding:12px 10px}
+.o2{padding:13px 12px}.sg{padding:10px 12px}
+.x{width:44px;height:44px;right:6px;top:6px;display:grid;place-items:center}
+.fb{min-height:48px}
+.nv2{width:40px;height:40px}
+.lk{padding:6px 2px}
+.fl label.c{margin:10px 0}
+}
 </style></head><body><div id="hd"></div><main id="app"></main><div id="m"></div><div id="t" aria-live="polite"></div><div id="pop"></div>
 <script>
+/* ===== Automatic device detection: mobile / tablet / pc ===== */
+const DEV={type:'pc',touch:false,land:false};
+function detectDevice(){const ua=navigator.userAgent||'',uad=navigator.userAgentData,mp=navigator.maxTouchPoints||0,mm=q=>matchMedia(q).matches,
+ipad=/iPad/i.test(ua)||(/Macintosh/i.test(ua)&&mp>1),
+tabUA=ipad||(/Android/i.test(ua)&&!/Mobile/i.test(ua))||/Tablet|PlayBook|Silk|Kindle|Nexus 7|Nexus 9|SM-T|KFAPWI/i.test(ua),
+phoneUA=!tabUA&&(/iPhone|iPod|Windows Phone|BlackBerry|BB10|IEMobile|Opera Mini|Mobi/i.test(ua)||(uad&&uad.mobile===true)),
+touch=mp>0||mm('(pointer:coarse)'),short=Math.min(screen.width||innerWidth,screen.height||innerHeight);
+let t='pc';if(phoneUA)t='mobile';else if(tabUA)t='tablet';else if(touch&&mm('(hover:none)')&&mm('(pointer:coarse)'))t=short<600?'mobile':'tablet';
+DEV.type=t;DEV.touch=touch;DEV.land=innerWidth>innerHeight;
+const r=document.documentElement;r.dataset.device=t;r.dataset.orient=DEV.land?'landscape':'portrait';r.classList.toggle('touch',touch);r.classList.toggle('mouse',!touch)}
+detectDevice();
+const DEVLABEL=()=>({mobile:'Mobile view',tablet:'Tablet view',pc:'Desktop view'}[DEV.type]);
+/* bottom sheets: date picker on phones/narrow screens, dropdowns + guests on touch devices with narrow screens */
+const useSheet=k=>k=='dp'?(innerWidth<700||DEV.type=='mobile'):(k=='dd'||k=='gp')&&DEV.touch&&innerWidth<700;
+addEventListener('resize',()=>{const o=DEV.type;detectDevice();if(o!=DEV.type){try{render()}catch(e){}}});
+addEventListener('orientationchange',()=>setTimeout(detectDevice,200));
 const K='roamly_v1',$=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const iso=d=>d.toISOString().slice(0,10),T0=()=>{const d=new Date();d.setHours(12,0,0,0);return d},TD=()=>iso(T0()),addD=(n,b=T0())=>{const d=new Date(b);d.setDate(d.getDate()+n);return iso(d)};
 const nts=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5),$$=n=>'$'+Math.round(n).toLocaleString('en-US'),fd=s=>new Date(s+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
@@ -328,11 +431,11 @@ function sel(pa,opts,cur,o={}){DDR[pa]={opts,cur,t:o.t};const x=opts.find(z=>Str
 /* popover core */
 function openPop(o){clearTimeout(PT);PO=o;renderPop(1)}
 function closePop(now){const p=$('#pop');PO=null;clearTimeout(PT);if(now||!p.firstElementChild){p.innerHTML=''}else{p.querySelectorAll('.po').forEach(x=>x.classList.add('xo'));PT=setTimeout(()=>{if(!PO)p.innerHTML=''},150)}markAct()}
-function renderPop(first){if(!PO)return;const k=PO.k,sheet=k=='dp'&&innerWidth<700,inner=k=='dp'?dpHTML():k=='gp'?gpHTML():k=='ac'?acHTML():ddHTML(),role=k=='dd'||k=='ac'?'listbox':'dialog',lab={dp:'Choose dates',gp:'Guests',ac:'Destination suggestions',dd:'Options'}[k];
+function renderPop(first){if(!PO)return;const k=PO.k,sheet=useSheet(k),inner=k=='dp'?dpHTML():k=='gp'?gpHTML():k=='ac'?acHTML():ddHTML(),role=k=='dd'||k=='ac'?'listbox':'dialog',lab={dp:'Choose dates',gp:'Guests',ac:'Destination suggestions',dd:'Options'}[k];
 $('#pop').innerHTML=(sheet?`<div class="bd2${first?' in':''}"></div>`:'')+`<div class="po ${k}${sheet?' sheet':''}${first?' in':''}" tabindex=-1 role=${role} aria-label="${lab}">${sheet?'<div class=hdl></div>':''}${inner}</div>`;
 if(k=='dp')paintRange();place();markAct();if(k!='ac'){const e=$('#pop .po');e&&e.focus({preventScroll:true})}}
 function place(){if(!PO)return;const el=$('#pop .po');if(!el)return;const a=document.querySelector('[data-pa="'+PO.pa+'"]');if(!a)return closePop(1);
-const sheet=PO.k=='dp'&&innerWidth<700;el.classList.toggle('sheet',sheet);if(sheet){el.style.left=el.style.top='';return}
+const sheet=useSheet(PO.k);el.classList.toggle('sheet',sheet);if(sheet){el.style.left=el.style.top='';return}
 const ar=(a.closest('.fld,.fb')||a).getBoundingClientRect(),vw=innerWidth,vh=innerHeight;if(PO.k=='dd')el.style.minWidth=ar.width+'px';
 const w=el.offsetWidth,h=el.offsetHeight;let x=ar.left;if(x+w>vw-8)x=ar.right-w;x=Math.max(8,Math.min(x,vw-w-8));let y=ar.bottom+8;if(y+h>vh-8&&ar.top-h-8>8)y=ar.top-h-8;y=Math.max(8,Math.min(y,vh-h-8));
 el.style.left=x+'px';el.style.top=y+'px'}
@@ -411,12 +514,12 @@ document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.a
 document.addEventListener('mouseover',e=>{if(!PO||PO.k!='dp'||PO.phase!='out')return;const b=e.target.closest&&e.target.closest('.dpd');if(!b||b.disabled)return;if(PO.hover!=b.dataset.s){PO.hover=b.dataset.s;paintRange()}});
 document.addEventListener('mouseout',e=>{if(PO&&PO.k=='dp'&&e.target.closest&&e.target.closest('.dgr')&&!(e.relatedTarget&&e.relatedTarget.closest&&e.relatedTarget.closest('.dgr'))){PO.hover='';paintRange()}});
 let RT=0;addEventListener('resize',()=>{clearTimeout(RT);RT=setTimeout(()=>{if(!PO)return;if(PO.k=='dp')renderPop();else place()},120)});
-addEventListener('scroll',()=>{$('#hd').classList.toggle('sc',scrollY>6);if(PO&&!(PO.k=='dp'&&innerWidth<700))place()},{passive:true,capture:true});
+addEventListener('scroll',()=>{$('#hd').classList.toggle('sc',scrollY>6);if(PO&&!useSheet(PO.k))place()},{passive:true,capture:true});
 const heart=p=>`<button class="fav ${db.saved.includes(p.id)?'on':''}" data-a=fav data-id=${p.id} aria-label="Save ${esc(p.title)}">♥</button>`;
 const card=p=>`<article class=card data-a=open data-id=${p.id} data-j=0><div class=im><img src="${img(p)}" alt="${esc(p.title)} in ${esc(p.city)}" loading=lazy>${heart(p)}<button type=button class="nv pv" data-a=cc data-id=${p.id} data-n=-1 aria-label="Previous photo">‹</button><button type=button class="nv nx" data-a=cc data-id=${p.id} data-n=1 aria-label="Next photo">›</button><span class=dots aria-hidden=true><i class=on></i><i></i><i></i><i></i></span></div><div class=cm><b>${esc(p.title)}</b><span>★ ${p.reviews?p.rating.toFixed(2):'New'}${p.reviews?' ('+p.reviews+')':''}</span></div><div class=sub>${esc(p.city)}, ${esc(p.country)}</div><div class=sub><b style="color:var(--ink)">${$$(p.price)}</b> night</div></article>`;
 function header(){const r=db.role,L=r=='guest'?[['Explore','search'],['Trips','trips:trips'],['Saved','trips:saved'],['Messages','trips:msgs'],['Help','help']]:r=='host'?[['Dashboard','host:ov'],['Listings','host:ls'],['Calendar','host:cal'],['Reservations','host:rs'],['Messages','host:msgs'],['Help','help']]:[['Explore','search'],['Categories','cats'],['Become a host','demo'],['Help','help']];
 const ini=r?ME().split(' ').map(x=>x[0]).join(''):'?';
-return(r?`<div class=dm>Demo Mode: ${r=='host'?'Host':'Guest'} view of a portfolio project by Korvantik. All data is simulated. No real bookings or payments.</div>`:'')+`<div class=bar><button class=logo data-a=go data-v=home aria-label="Roamly home"><svg width=24 height=24 viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.4 4 9.6c0 5.4 8 12.4 8 12.4s8-7 8-12.4C20 5.4 16.4 2 12 2z" fill="var(--ac)"/><path d="M8 11l4-3.5 4 3.5v3H8z" fill="#fff"/></svg>Roamly</button><nav class=links>${L.map(l=>`<button data-a=nav data-v="${l[1]}">${l[0]}</button>`).join('')}</nav>${r?'':'<button class="btn s" data-a=demo>Explore Demo</button>'}<div class=acc><button class=me data-a=menu aria-label="Account menu"><span class=av>${ini}</span>${r?esc(ME().split(' ')[0]):'Menu'}</button>${menu?`<div class=menu>${r?`<p>${esc(ME())}, demo ${r}</p><button data-a=role data-r=${r=='host'?'guest':'host'}>Switch to ${r=='host'?'Guest (Alex Morgan)':'Host (Jordan Bennett)'}</button><button data-a=exit>Exit demo mode</button>`:'<button data-a=demo>Explore Demo</button>'}<button data-a=reset>Reset Demo</button></div>`:''}</div></div>`}
+return`<div class=dm role=note><span class=l>Demo Mode: ${r?(r=='host'?'Host':'Guest')+' view of a':'A'} portfolio project by Korvantik. All data is simulated. No real bookings or payments.</span><span class=s>Demo mode · simulated data</span><span class=dv>${DEVLABEL()}</span></div>`+`<div class=bar><button class=logo data-a=go data-v=home aria-label="Roamly home"><svg width=24 height=24 viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.4 4 9.6c0 5.4 8 12.4 8 12.4s8-7 8-12.4C20 5.4 16.4 2 12 2z" fill="var(--ac)"/><path d="M8 11l4-3.5 4 3.5v3H8z" fill="#fff"/></svg>Roamly</button><nav class=links>${L.map(l=>`<button data-a=nav data-v="${l[1]}">${l[0]}</button>`).join('')}</nav>${r?'':'<button class="btn s" data-a=demo>Explore Demo</button>'}<div class=acc><button class=me data-a=menu aria-label="Account menu"><span class=av>${ini}</span>${r?esc(ME().split(' ')[0]):'Menu'}</button>${menu?`<div class=menu>${r?`<p>${esc(ME())}, demo ${r}</p><button data-a=role data-r=${r=='host'?'guest':'host'}>Switch to ${r=='host'?'Guest (Alex Morgan)':'Host (Jordan Bennett)'}</button><button data-a=exit>Exit demo mode</button>`:'<button data-a=demo>Explore Demo</button>'}<button data-a=reset>Reset Demo</button></div>`:''}</div></div>`}
 function home(){const c=[['Featured stays',p=>p.rating>=4.8,{sort:'rating'}],['Weekend escapes',p=>p.price<=140,{sort:'plow'}],['Coastal retreats',p=>p.type=='Coastal',{types:['Coastal']}],['Cabins and countryside',p=>p.type=='Cabin'||p.type=='Countryside',{types:['Cabin','Countryside']}],['Design-led properties',p=>p.type=='Design',{types:['Design']}],['Unique accommodations',p=>p.type=='Unique',{types:['Unique']}]];window.PRE=c.map(x=>x[2]);
 const cities=[...new Set(db.props.map(p=>p.city))].slice(0,6);const h0=P('p2')||db.props[0],h1=P('p1')||db.props[1];
 return`<div class=w><div class=hero><div><h1>Find a place that feels like yours.</h1><p class=l>Discover remarkable stays, thoughtfully designed for the way you travel.</p><div class=acts><button class=btn data-a=go data-v=search>Explore Stays</button><button class="btn o" data-a=demo>Explore Demo</button></div></div><div class=hi><img src="${img(h0,0)}" alt="Featured stay in ${esc(h0.city)}"><img class=i2 src="${img(h1,1)}" alt=""></div></div>
@@ -499,5 +602,6 @@ if(k=='price'){P(f.dataset.id).price=Math.max(30,+F.get('price')||30);save();toa
 if(k=='lst'){const id=f.dataset.id,o=id?P(id):null,bd=Math.max(1,+F.get('bd')||1),city=F.get('city').trim(),d={title:F.get('title').trim(),city,country:F.get('country').trim(),type:F.get('type'),price:Math.max(30,+F.get('price')),bd,cap:bd*2,desc:F.get('desc'),hue:+F.get('hue'),am:F.getAll('am')};
 if(o)Object.assign(o,d);else db.props.unshift({id:'n'+Date.now(),rating:0,reviews:0,ba:1,host:'Jordan Bennett',own:true,blocked:[],...d});save();M=null;toast(o?'Listing updated':'Listing created and now live in search');V.p.tab='ls';render()}});
 document.addEventListener('keydown',e=>{if(keyPop(e))return;if(e.key=='Escape'&&M)A.x();if(M&&M.t=='lb'){if(e.key=='ArrowRight')A.lbn({n:1});if(e.key=='ArrowLeft')A.lbn({n:-1})}});
+const HDR=$('#hd');if('ResizeObserver' in window)new ResizeObserver(()=>document.documentElement.style.setProperty('--hh',HDR.offsetHeight+'px')).observe(HDR);
 render('page');
 </script></body></html>
