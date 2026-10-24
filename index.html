@@ -361,6 +361,38 @@ html input,html select,html textarea,.sb input{font-size:16px}
 .lk{padding:6px 2px}
 .fl label.c{margin:10px 0}
 }
+/* ===== Notch / side safe-area fix (iPhone landscape) + header button protection ===== */
+.w,.bar{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+@media(min-width:761px) and (max-width:1100px){.w,.bar{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}}
+@media(max-width:760px){
+.w{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.bar{padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}
+.links{margin-left:calc(-1*max(14px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(14px,env(safe-area-inset-right,0px)));width:auto;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}
+}
+@media(max-height:500px) and (orientation:landscape){.links{margin:0;padding:0}}
+.bar>.btn,.bar .acc,.bar .logo{flex:none;white-space:nowrap}
+.links button{flex:none}
+.ov{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lb button[style*="left:16px"]{left:max(16px,env(safe-area-inset-left,0px))!important}
+.lb button[style*="right:16px"]{right:max(16px,env(safe-area-inset-right,0px))!important}
+/* ===== Hamburger navigation (phones / narrow screens) ===== */
+.hbb{display:none;width:44px;height:44px;border:1px solid var(--ln);background:var(--sf);border-radius:10px;place-items:center;align-content:center;gap:4px;padding:0;flex:none}
+.hbb i{display:block;width:20px;height:2px;border-radius:2px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
+.hbb[aria-expanded=true] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.hbb[aria-expanded=true] i:nth-child(2){opacity:0}
+.hbb[aria-expanded=true] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.hb .hbb{display:grid}
+.hb .links,.hb .bar>.btn,.hb .acc{display:none}
+.hb .bar{flex-wrap:nowrap;padding-top:8px;padding-bottom:8px}.hb .bar .logo{margin-right:auto}
+.bar,.dm{position:relative;z-index:2}
+.mnb{position:fixed;inset:0;background:rgba(20,16,12,.45);z-index:0;animation:fade .2s}
+.mnp{position:absolute;left:0;right:0;top:100%;z-index:1;background:var(--bg);border-bottom:1px solid var(--ln);box-shadow:0 24px 40px -20px var(--sh);padding:6px max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px));max-height:calc(100vh - var(--hh,100px) - env(safe-area-inset-top,0px));max-height:calc(100dvh - var(--hh,100px) - env(safe-area-inset-top,0px));overflow:auto;animation:popIn .22s var(--ease);transform-origin:top}
+.mnp button{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--ln);padding:14px 6px;font-size:17px;min-height:50px}
+.mnp button:last-child{border-bottom:0}
+.mnp button.btn{background:var(--ac);color:#fff;border:1px solid var(--ac);border-radius:8px;text-align:center;margin:12px 0 4px}
+.mnp .mpn{padding:10px 6px 4px;color:var(--mu);font-size:13px}
+.mnp .mps{border-top:1px solid var(--ln);margin:6px 0 2px}
+html:not(.hb) .mnb,html:not(.hb) .mnp{display:none}
 </style></head><body><div id="hd"></div><main id="app"></main><div id="m"></div><div id="t" aria-live="polite"></div><div id="pop"></div>
 <script>
 /* ===== Automatic device detection: mobile / tablet / pc ===== */
@@ -372,7 +404,7 @@ phoneUA=!tabUA&&(/iPhone|iPod|Windows Phone|BlackBerry|BB10|IEMobile|Opera Mini|
 touch=mp>0||mm('(pointer:coarse)'),short=Math.min(screen.width||innerWidth,screen.height||innerHeight);
 let t='pc';if(phoneUA)t='mobile';else if(tabUA)t='tablet';else if(touch&&mm('(hover:none)')&&mm('(pointer:coarse)'))t=short<600?'mobile':'tablet';
 DEV.type=t;DEV.touch=touch;DEV.land=innerWidth>innerHeight;
-const r=document.documentElement;r.dataset.device=t;r.dataset.orient=DEV.land?'landscape':'portrait';r.classList.toggle('touch',touch);r.classList.toggle('mouse',!touch)}
+const r=document.documentElement;r.dataset.device=t;r.dataset.orient=DEV.land?'landscape':'portrait';r.classList.toggle('hb',innerWidth<=760||t=='mobile');r.classList.toggle('touch',touch);r.classList.toggle('mouse',!touch)}
 detectDevice();
 const DEVLABEL=()=>({mobile:'Mobile view',tablet:'Tablet view',pc:'Desktop view'}[DEV.type]);
 /* bottom sheets: date picker on phones/narrow screens, dropdowns + guests on touch devices with narrow screens */
@@ -410,8 +442,8 @@ const img=(p,j=0)=>{if(String(p.id)[0]=='n')return artc(p,j);const k=p.id+'-'+(j
 addEventListener('error',e=>{const t=e.target;if(!t||t.tagName!='IMG')return;const u=t.getAttribute('src'),m=u&&u.match(/^(images2?)\/(.+)\.(\w+)$/);if(!m)return;const i=DIRS.indexOf(m[1])*EXT.length+EXT.indexOf(m[3]);if(i<DIRS.length*EXT.length-1){t.src=cand(m[2],i+1);return}EX[m[2]]='none';if(FB[m[2]])t.src=FB[m[2]]},true);
 addEventListener('load',e=>{const t=e.target;if(t&&t.tagName=='IMG'){t.classList.add('ld');const u=t.getAttribute('src')||'',m=u.match(/^images2?\/(.+)\.\w+$/);if(m)EX[m[1]]=u}},true);
 const avail=(p,a,b)=>{for(let d=a;d<b;d=addD(1,d+'T12:00'))if(p.blocked.includes(d))return false;return!db.res.some(r=>r.pid==p.id&&r.st!='cancelled'&&r.in<b&&r.out>a)};
-let V={v:'home',p:{}},M=null,menu=false,fo=false;
-const go=(v,p={})=>{V={v,p};menu=false;M=null;closePop(1);render('page');scrollTo(0,0)};
+let V={v:'home',p:{}},M=null,menu=false,fo=false,mnav=false;
+const go=(v,p={})=>{V={v,p};menu=false;mnav=false;M=null;closePop(1);render('page');scrollTo(0,0)};
 /* ================= Custom controls: dropdowns, date picker, guests, autocomplete ================= */
 const fs=s=>new Date(s+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}),
 fdl=s=>new Date(s+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}),
@@ -519,7 +551,8 @@ const heart=p=>`<button class="fav ${db.saved.includes(p.id)?'on':''}" data-a=fa
 const card=p=>`<article class=card data-a=open data-id=${p.id} data-j=0><div class=im><img src="${img(p)}" alt="${esc(p.title)} in ${esc(p.city)}" loading=lazy>${heart(p)}<button type=button class="nv pv" data-a=cc data-id=${p.id} data-n=-1 aria-label="Previous photo">‹</button><button type=button class="nv nx" data-a=cc data-id=${p.id} data-n=1 aria-label="Next photo">›</button><span class=dots aria-hidden=true><i class=on></i><i></i><i></i><i></i></span></div><div class=cm><b>${esc(p.title)}</b><span>★ ${p.reviews?p.rating.toFixed(2):'New'}${p.reviews?' ('+p.reviews+')':''}</span></div><div class=sub>${esc(p.city)}, ${esc(p.country)}</div><div class=sub><b style="color:var(--ink)">${$$(p.price)}</b> night</div></article>`;
 function header(){const r=db.role,L=r=='guest'?[['Explore','search'],['Trips','trips:trips'],['Saved','trips:saved'],['Messages','trips:msgs'],['Help','help']]:r=='host'?[['Dashboard','host:ov'],['Listings','host:ls'],['Calendar','host:cal'],['Reservations','host:rs'],['Messages','host:msgs'],['Help','help']]:[['Explore','search'],['Categories','cats'],['Become a host','demo'],['Help','help']];
 const ini=r?ME().split(' ').map(x=>x[0]).join(''):'?';
-return`<div class=dm role=note><span class=l>Demo Mode: ${r?(r=='host'?'Host':'Guest')+' view of a':'A'} portfolio project by Korvantik. All data is simulated. No real bookings or payments.</span><span class=s>Demo mode · simulated data</span><span class=dv>${DEVLABEL()}</span></div>`+`<div class=bar><button class=logo data-a=go data-v=home aria-label="Roamly home"><svg width=24 height=24 viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.4 4 9.6c0 5.4 8 12.4 8 12.4s8-7 8-12.4C20 5.4 16.4 2 12 2z" fill="var(--ac)"/><path d="M8 11l4-3.5 4 3.5v3H8z" fill="#fff"/></svg>Roamly</button><nav class=links>${L.map(l=>`<button data-a=nav data-v="${l[1]}">${l[0]}</button>`).join('')}</nav>${r?'':'<button class="btn s" data-a=demo>Explore Demo</button>'}<div class=acc><button class=me data-a=menu aria-label="Account menu"><span class=av>${ini}</span>${r?esc(ME().split(' ')[0]):'Menu'}</button>${menu?`<div class=menu>${r?`<p>${esc(ME())}, demo ${r}</p><button data-a=role data-r=${r=='host'?'guest':'host'}>Switch to ${r=='host'?'Guest (Alex Morgan)':'Host (Jordan Bennett)'}</button><button data-a=exit>Exit demo mode</button>`:'<button data-a=demo>Explore Demo</button>'}<button data-a=reset>Reset Demo</button></div>`:''}</div></div>`}
+const MP=mnav?`<div class=mnb data-a=mnav></div><nav class=mnp id=mnp aria-label="Main menu">${r?`<p class=mpn>${esc(ME())}, demo ${r}</p>`:''}${L.map(l=>`<button data-a=nav data-v="${l[1]}">${l[0]}</button>`).join('')}<div class=mps></div>${r?`<button data-a=role data-r=${r=='host'?'guest':'host'}>Switch to ${r=='host'?'Guest (Alex Morgan)':'Host (Jordan Bennett)'}</button><button data-a=exit>Exit demo mode</button>`:`<button class=btn data-a=demo>Explore Demo</button>`}<button data-a=reset>Reset Demo</button></nav>`:'';
+return`<div class=dm role=note><span class=l>Demo Mode: ${r?(r=='host'?'Host':'Guest')+' view of a':'A'} portfolio project by Korvantik. All data is simulated. No real bookings or payments.</span><span class=s>Demo mode · simulated data</span><span class=dv>${DEVLABEL()}</span></div>`+`<div class=bar><button class=logo data-a=go data-v=home aria-label="Roamly home"><svg width=24 height=24 viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.4 4 9.6c0 5.4 8 12.4 8 12.4s8-7 8-12.4C20 5.4 16.4 2 12 2z" fill="var(--ac)"/><path d="M8 11l4-3.5 4 3.5v3H8z" fill="#fff"/></svg>Roamly</button><nav class=links>${L.map(l=>`<button data-a=nav data-v="${l[1]}">${l[0]}</button>`).join('')}</nav>${r?'':'<button class="btn s" data-a=demo>Explore Demo</button>'}<div class=acc><button class=me data-a=menu aria-label="Account menu"><span class=av>${ini}</span>${r?esc(ME().split(' ')[0]):'Menu'}</button>${menu?`<div class=menu>${r?`<p>${esc(ME())}, demo ${r}</p><button data-a=role data-r=${r=='host'?'guest':'host'}>Switch to ${r=='host'?'Guest (Alex Morgan)':'Host (Jordan Bennett)'}</button><button data-a=exit>Exit demo mode</button>`:'<button data-a=demo>Explore Demo</button>'}<button data-a=reset>Reset Demo</button></div>`:''}</div><button class=hbb data-a=mnav aria-label="Menu" aria-expanded=${mnav} aria-controls=mnp><i></i><i></i><i></i></button></div>${MP}`}
 function home(){const c=[['Featured stays',p=>p.rating>=4.8,{sort:'rating'}],['Weekend escapes',p=>p.price<=140,{sort:'plow'}],['Coastal retreats',p=>p.type=='Coastal',{types:['Coastal']}],['Cabins and countryside',p=>p.type=='Cabin'||p.type=='Countryside',{types:['Cabin','Countryside']}],['Design-led properties',p=>p.type=='Design',{types:['Design']}],['Unique accommodations',p=>p.type=='Unique',{types:['Unique']}]];window.PRE=c.map(x=>x[2]);
 const cities=[...new Set(db.props.map(p=>p.city))].slice(0,6);const h0=P('p2')||db.props[0],h1=P('p1')||db.props[1];
 return`<div class=w><div class=hero><div><h1>Find a place that feels like yours.</h1><p class=l>Discover remarkable stays, thoughtfully designed for the way you travel.</p><div class=acts><button class=btn data-a=go data-v=search>Explore Stays</button><button class="btn o" data-a=demo>Explore Demo</button></div></div><div class=hi><img src="${img(h0,0)}" alt="Featured stay in ${esc(h0.city)}"><img class=i2 src="${img(h1,1)}" alt=""></div></div>
@@ -577,8 +610,8 @@ const VIEWS={home,search,prop,checkout,done,trips,host};
 function render(a=''){fixCrit();$('#hd').innerHTML=header();$('#app').innerHTML=VIEWS[V.v]()+(['trips','checkout','done'].includes(V.v)?foot():'');$('#m').innerHTML=modal();post(a);markAct();if(PO)place()}
 function toast(s){const d=document.createElement('div');d.textContent=s;$('#t').append(d);setTimeout(()=>d.classList.add('out'),2300);setTimeout(()=>d.remove(),2650)}
 function setRole(r){db.role=r;save();toast('Demo mode: '+(r=='host'?'Host':'Guest'));r=='host'?go('host',{tab:'ov'}):go('trips',{tab:'trips'})}
-const A={demo(){M={t:'demo'};menu=false;render()},x(){M=null;render()},bg(d,t,e){if(e.target==t)A.x()},go(d){go(d.v)},role(d){setRole(d.r)},menu(){menu=!menu;render()},exit(){db.role=null;save();go('home')},
-nav(d){const v=d.v;if(v=='help'){M={t:'help'};render()}else if(v=='demo')A.demo();else if(v=='cats'){go('home');setTimeout(()=>$('#cats').scrollIntoView(),30)}else if(v.includes(':')){const[a,b]=v.split(':');go(a,{tab:b})}else go(v)},
+const A={mnav(){mnav=!mnav;menu=false;$('#hd').innerHTML=header()},demo(){M={t:'demo'};menu=false;mnav=false;render()},x(){M=null;render()},bg(d,t,e){if(e.target==t)A.x()},go(d){go(d.v)},role(d){setRole(d.r)},menu(){menu=!menu;render()},exit(){db.role=null;save();go('home')},
+nav(d){const v=d.v;mnav=false;if(v=='help'){M={t:'help'};render()}else if(v=='demo')A.demo();else if(v=='cats'){go('home');setTimeout(()=>$('#cats').scrollIntoView(),30)}else if(v.includes(':')){const[a,b]=v.split(':');go(a,{tab:b})}else go(v)},
 open(d){go('prop',{id:d.id})},fav(d){const i=db.saved.indexOf(d.id);i<0?db.saved.push(d.id):db.saved.splice(i,1);save();document.querySelectorAll('.fav[data-id="'+d.id+'"]').forEach(b=>b.classList.toggle('on',i<0));toast(i<0?'Saved to wishlist':'Removed from wishlist');if(V.v=='trips'&&V.p.tab=='saved')render()},
 cat(d){db.crit={...DC,types:[d.t]};save();go('search')},dest(d){db.crit={...DC,q:d.c};save();go('search')},pre(d){db.crit={...DC,...PRE[d.i]};save();go('search')},
 filt(){fo=!fo;render()},clr(){db.crit={...DC};save();closePop(1);render('grid')},rm(d){const c=db.crit,k=d.k;if(k=='types'||k=='am')c[k]=c[k].filter(x=>x!=d.v);else if(k=='dates'){c.in='';c.out=''}else c[k]=DC[k];save();render('grid')},
@@ -590,7 +623,7 @@ det(d){M={t:'det',ref:d.ref};render()},cx(d){M={t:'conf',title:'Cancel this simu
 rst(d){db.res.find(r=>r.ref==d.ref).st=d.s;save();toast(d.s=='confirmed'?'Reservation accepted':'Reservation declined');render()},
 blk(d){const p=P(V.p.hp)||mine()[0],i=p.blocked.indexOf(d.d);i<0?p.blocked.push(d.d):p.blocked.splice(i,1);save();render()},
 newl(){M={t:'form'};render()},edl(d){M={t:'form',id:d.id};render()},
-reset(){menu=false;M={t:'conf',title:'Reset the demo?',body:'This restores the original sample data and removes your saved properties, reservations, listings and messages.',ok:'Reset demo',go:'rdo'};render()},rdo(){const r=db.role;db=seed();db.role=r;save();toast('Demo reset');go(r?r=='host'?'host':'trips':'home',{tab:r=='host'?'ov':'trips'})},
+reset(){menu=false;mnav=false;M={t:'conf',title:'Reset the demo?',body:'This restores the original sample data and removes your saved properties, reservations, listings and messages.',ok:'Reset demo',go:'rdo'};render()},rdo(){const r=db.role;db=seed();db.role=r;save();toast('Demo reset');go(r?r=='host'?'host':'trips':'home',{tab:r=='host'?'ov':'trips'})},
 search(){}};Object.assign(A,CTRL);
 document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t||!A[t.dataset.a])return;A[t.dataset.a](t.dataset,t,e)});
 document.addEventListener('change',e=>{const t=e.target,k=t.dataset.i;if(!k)return;const c=db.crit;if(['q','min','max'].includes(k)){clearTimeout(LT);live(k,t.value);return}if(k=='types'||k=='am'){c[k]=t.checked?[...c[k],t.value]:c[k].filter(x=>x!=t.value);save();render('grid')}});
@@ -601,7 +634,7 @@ if(k=='prof'){db.prof={name:F.get('name').trim()||'Alex Morgan',city:F.get('city
 if(k=='price'){P(f.dataset.id).price=Math.max(30,+F.get('price')||30);save();toast('Nightly price updated');render()}
 if(k=='lst'){const id=f.dataset.id,o=id?P(id):null,bd=Math.max(1,+F.get('bd')||1),city=F.get('city').trim(),d={title:F.get('title').trim(),city,country:F.get('country').trim(),type:F.get('type'),price:Math.max(30,+F.get('price')),bd,cap:bd*2,desc:F.get('desc'),hue:+F.get('hue'),am:F.getAll('am')};
 if(o)Object.assign(o,d);else db.props.unshift({id:'n'+Date.now(),rating:0,reviews:0,ba:1,host:'Jordan Bennett',own:true,blocked:[],...d});save();M=null;toast(o?'Listing updated':'Listing created and now live in search');V.p.tab='ls';render()}});
-document.addEventListener('keydown',e=>{if(keyPop(e))return;if(e.key=='Escape'&&M)A.x();if(M&&M.t=='lb'){if(e.key=='ArrowRight')A.lbn({n:1});if(e.key=='ArrowLeft')A.lbn({n:-1})}});
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&mnav&&!PO&&!M){mnav=false;$('#hd').innerHTML=header();const b=$('.hbb');b&&b.focus();return}if(keyPop(e))return;if(e.key=='Escape'&&M)A.x();if(M&&M.t=='lb'){if(e.key=='ArrowRight')A.lbn({n:1});if(e.key=='ArrowLeft')A.lbn({n:-1})}});
 const HDR=$('#hd');if('ResizeObserver' in window)new ResizeObserver(()=>document.documentElement.style.setProperty('--hh',HDR.offsetHeight+'px')).observe(HDR);
 render('page');
 </script></body></html>
